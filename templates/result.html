@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #d9edf7);
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            padding: 20px; /* Added padding for better spacing */
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .row-cols-1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid columns */
+            gap: 20px; /* Gap between grid items */
+        }
+        .list-group-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .list-group-item:hover {
+            transform: translateY(-5px); /* Lift item on hover */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+        .list-group-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .list-group-item a {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .list-group-item a:hover {
+            color: #0056b3; /* Color change on hover */
+            text-decoration: none;
+        }
+        .list-group-item p {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 0;
+        }
+        .no-results {
+            text-align: center;
+            color: #dc3545;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            text-decoration: none;
+            color: #0056b3; /* Color change on hover */
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .row-cols-1 {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Search Results</h1>
+        <div class="row row-cols-1">
+            {% if results.get('items') %}
+                {% for item in results['items'] %}
+                    <div class="col list-group-item">
+                        {% if item.get('pagemap') and item['pagemap'].get('cse_image') %}
+                            <img src="{{ item['pagemap']['cse_image'][0]['src'] }}" alt="Product Image">
+                        {% elif image_url %}
+                            <img src="{{ image_url }}" alt="Product Image">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Product Image Placeholder">
+                        {% endif %}
+                        <a href="{{ item['link'] }}">{{ item['title'] }}</a>
+                        <p>{{ item['snippet'] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col list-group-item no-results">No results found</div>
+            {% endif %}
+        </div>
+        <div class="text-center">
+            <a href="/" class="back-link">Back to search</a>
+        </div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
